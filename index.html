@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simply Tallow - Premium Grass-Fed Tallow Products</title>
+    <meta name="description" content="Premium grass-fed tallow products for skincare and cooking. Natural, sustainable, and nutrient-rich tallow balms and cooking portions delivered to Canada and USA.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Simply Tallow - Premium Grass-Fed Tallow Products">
+    <meta property="og:description" content="Premium grass-fed tallow products for skincare and cooking. Natural, sustainable, and nutrient-rich tallow balms and cooking portions delivered to Canada and USA.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #1f2937; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        
+        /* Header */
+        .header { background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 40; }
+        .header-content { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+        .logo-section { display: flex; align-items: center; gap: 0.75rem; }
+        .logo { width: 4rem; height: 4rem; background: white; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; border: 2px solid #d1d5db; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+        .logo img { width: 100%; height: 100%; object-fit: contain; }
+        .brand h1 { font-size: 1.5rem; font-weight: bold; color: #1f2937; }
+        .brand p { font-size: 0.875rem; color: #4b5563; }
+        .cart-btn { background: white; border: 1px solid #d1d5db; color: #374151; padding: 0.5rem 1rem; border-radius: 0.375rem; cursor: pointer; position: relative; }
+        
+        /* Hero Section */
+        .hero { text-align: center; padding: 3rem 0; background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #ecfdf5 100%); }
+        .hero-logo { display: flex; justify-content: center; margin-bottom: 2rem; }
+        .hero-logo-img { width: 8rem; height: 8rem; background: white; border-radius: 1rem; display: flex; align-items: center; justify-content: center; border: 3px solid #d1d5db; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; }
+        .hero-logo-img img { width: 100%; height: 100%; object-fit: contain; }
+        .hero p { font-size: 1.25rem; color: #1f2937; margin-bottom: 2rem; max-width: 32rem; margin-left: auto; margin-right: auto; }
+        
+        /* Products Section */
+        .products { padding: 3rem 0; }
+        .products h2 { font-size: 2rem; font-weight: bold; color: #1f2937; margin-bottom: 2rem; text-align: center; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .product-card { background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); border: 1px solid #d1d5db; border-radius: 0.5rem; overflow: hidden; }
+        .product-image { width: 100%; height: 12rem; background: linear-gradient(135deg, #f3f4f6, #e5e7eb); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .product-image img:hover { transform: scale(1.05); }
+        .product-content { padding: 1.5rem; }
+        .product-title { font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem; }
+        .product-description { font-size: 0.875rem; color: #4b5563; margin-bottom: 1rem; line-height: 1.5; }
+        .product-price { font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem; }
+        .add-to-cart { background: #16a34a; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.375rem; cursor: pointer; width: 100%; font-weight: 500; }
+        .add-to-cart:hover { background: #15803d; }
+        
+        /* Info Sections */
+        .info-section { background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 2rem; margin: 2rem 0; }
+        .info-title { font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem; text-align: center; }
+        .shipping-info { text-align: center; }
+        .shipping-price { font-size: 2rem; font-weight: bold; color: #16a34a; margin: 0.5rem 0; }
+        
+        /* Collapsible */
+        .collapsible-trigger { cursor: pointer; width: 100%; text-align: left; background: none; border: none; }
+        .collapsible-content { display: none; }
+        .collapsible-content.open { display: block; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .benefit-item { text-align: center; }
+        .benefit-icon { width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; }
+        .benefit-title { font-weight: 600; color: #1f2937; margin-bottom: 0.5rem; }
+        .benefit-description { font-size: 0.875rem; color: #4b5563; }
+        
+        /* Footer */
+        .footer { text-align: center; color: #6b7280; padding: 2rem 0; border-top: 1px solid #e5e7eb; margin-top: 2rem; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-logo-img { width: 6rem; height: 6rem; }
+            .hero p { font-size: 1.125rem; }
+            .products h2 { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img src="https://i.imgur.com/11r8aUN.jpeg" alt="Simply Tallow Logo">
+                    </div>
+                    <div class="brand">
+                        <h1>Simply Tallow</h1>
+                        <p>Pure. Natural. Simple.</p>
+                    </div>
+                </div>
+                <button class="cart-btn" onclick="alert('Shopping cart coming soon! Contact us directly for orders.')">
+                    🛒 Cart
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-logo">
+                <div class="hero-logo-img">
+                    <img src="https://i.imgur.com/11r8aUN.jpeg" alt="Simply Tallow Logo">
+                </div>
+            </div>
+            <p>Small batch, locally sourced fresh beef organ fat. Pure, natural, vitamin rich.</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <div class="container">
+            <h2>Our Products</h2>
+            <div class="product-grid">
+                <!-- Whipped Tallow Balm -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://i.imgur.com/ydr9B5j.jpeg" alt="4oz Whipped Tallow Balm">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">4oz Whipped Tallow Balm</h3>
+                        <p class="product-description">Premium unscented whipped tallow balm made from fresh locally sourced beef suet and organic extra virgin olive oil. Handcrafted in small batches in our clean home kitchen.</p>
+                        <div class="product-price">$20.00 USD</div>
+                        <button class="add-to-cart" onclick="alert('Contact us to order! Full shopping cart coming soon.')">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Cooking Portions 10-pack -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://i.imgur.com/n6frxSh.jpeg" alt="Tallow Cooking Portions 10-pack">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Tallow Cooking Portions (10-pack)</h3>
+                        <p class="product-description">100% fresh rendered tallow in convenient 0.5oz paper souffle cups. Vacuum sealed package contains 10 portions perfect for cooking and baking.</p>
+                        <div class="product-price">$4.00 USD</div>
+                        <button class="add-to-cart" onclick="alert('Contact us to order! Full shopping cart coming soon.')">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Cooking Portions 20-pack -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://i.imgur.com/n6frxSh.jpeg" alt="Tallow Cooking Portions 20-pack">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Tallow Cooking Portions (20-pack)</h3>
+                        <p class="product-description">100% fresh rendered tallow in convenient 0.5oz paper souffle cups. Vacuum sealed package contains 20 portions perfect for cooking and baking.</p>
+                        <div class="product-price">$7.50 USD</div>
+                        <button class="add-to-cart" onclick="alert('Contact us to order! Full shopping cart coming soon.')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Tallow Section -->
+    <section class="container">
+        <div class="info-section">
+            <button class="collapsible-trigger info-title" onclick="toggleCollapsible('tallow-benefits')">
+                ❤️ Why Choose Tallow for Your Skin? ▼
+            </button>
+            <div id="tallow-benefits" class="collapsible-content">
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon" style="background: #dbeafe;">✨</div>
+                        <h4 class="benefit-title">Deep Moisturization</h4>
+                        <p class="benefit-description">Tallow closely mimics human skin sebum, providing deep, long-lasting moisture that penetrates effectively.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon" style="background: #dcfce7;">🌿</div>
+                        <h4 class="benefit-title">100% Natural</h4>
+                        <p class="benefit-description">No synthetic chemicals, preservatives, or artificial fragrances. Just pure, natural ingredients your skin recognizes.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon" style="background: #fef3c7;">🛡️</div>
+                        <h4 class="benefit-title">Healing Properties</h4>
+                        <p class="benefit-description">Rich in vitamins A, D, E, and K. Helps heal dry, cracked skin and supports natural skin barrier function.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon" style="background: #fce7f3;">❤️</div>
+                        <h4 class="benefit-title">Gentle & Safe</h4>
+                        <p class="benefit-description">Perfect for sensitive skin, eczema, and dermatitis. Non-comedogenic and hypoallergenic for most people.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon" style="background: #fed7aa;">✨</div>
+                        <h4 class="benefit-title">Anti-Aging Benefits</h4>
+                        <p class="benefit-description">Supports collagen production and skin elasticity. Helps reduce fine lines and promotes healthy skin aging.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon" style="background: #fecaca;">🛡️</div>
+                        <h4 class="benefit-title">Versatile Use</h4>
+                        <p class="benefit-description">Perfect for face, body, hands, and even as a healing balm for cuts, scrapes, and minor skin irritations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shipping Information -->
+    <section class="container">
+        <div class="info-section shipping-info">
+            <h3 class="info-title">🚚 Shipping Information</h3>
+            <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 0.75rem;">Canada & USA</h4>
+            <div class="shipping-price">$7.50 USD</div>
+            <p style="color: #4b5563; font-size: 0.875rem; margin-bottom: 1rem;">Flat rate shipping to Canada and United States. No parcel tracking.</p>
+            <p style="color: #4b5563;">All prices are shown in USD. Only Bitcoin accepted. Enter the word <strong>SATOSHI</strong> for 5% discount at checkout.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>Simply Tallow</strong> - Handcrafted with care in Central Alberta, Canada</p>
+            <p style="font-size: 0.875rem; margin-top: 0.5rem;">Made in small batches in our clean home kitchen using only the finest locally sourced ingredients.</p>
+            <p style="font-size: 0.75rem; margin-top: 1rem;">
+                Vibed with <a href="https://soapbox.pub/mkstack" target="_blank" style="color: #16a34a; text-decoration: underline;">MKStack</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleCollapsible(id) {
+            const content = document.getElementById(id);
+            const trigger = content.previousElementSibling;
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                trigger.innerHTML = trigger.innerHTML.replace('▲', '▼');
+            } else {
+                content.classList.add('open');
+                trigger.innerHTML = trigger.innerHTML.replace('▼', '▲');
+            }
+        }
+    </script>
+</body>
+</html>
