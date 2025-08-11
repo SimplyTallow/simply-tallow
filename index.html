@@ -22,6 +22,7 @@
         .brand h1 { font-size: 1.5rem; font-weight: bold; color: #1f2937; }
         .brand p { font-size: 0.875rem; color: #4b5563; }
         .cart-btn { background: white; border: 1px solid #d1d5db; color: #374151; padding: 0.5rem 1rem; border-radius: 0.375rem; cursor: pointer; position: relative; }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: #16a34a; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; }
         
         /* Hero Section */
         .hero { text-align: center; padding: 3rem 0; background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #ecfdf5 100%); }
@@ -42,8 +43,20 @@
         .product-title { font-size: 1.125rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem; }
         .product-description { font-size: 0.875rem; color: #4b5563; margin-bottom: 1rem; line-height: 1.5; }
         .product-price { font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem; }
+        .quantity-controls { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .quantity-btn { background: #f3f4f6; border: 1px solid #d1d5db; width: 2rem; height: 2rem; border-radius: 0.25rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .quantity-input { width: 3rem; text-align: center; border: 1px solid #d1d5db; border-radius: 0.25rem; padding: 0.25rem; }
         .add-to-cart { background: #16a34a; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.375rem; cursor: pointer; width: 100%; font-weight: 500; }
         .add-to-cart:hover { background: #15803d; }
+        
+        /* Cart Modal */
+        .cart-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 50; }
+        .cart-modal.open { display: flex; align-items: center; justify-content: center; }
+        .cart-content { background: white; border-radius: 0.5rem; padding: 2rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .cart-header { display: flex; justify-content: between; align-items: center; margin-bottom: 1rem; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+        .cart-total { font-size: 1.25rem; font-weight: bold; margin: 1rem 0; }
+        .checkout-btn { background: #16a34a; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.375rem; cursor: pointer; width: 100%; font-weight: 500; margin-top: 1rem; }
         
         /* Info Sections */
         .info-section { background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 2rem; margin: 2rem 0; }
@@ -86,8 +99,9 @@
                         <p>Pure. Natural. Simple.</p>
                     </div>
                 </div>
-                <button class="cart-btn" onclick="alert('Shopping cart coming soon! Contact us directly for orders.')">
+                <button class="cart-btn" onclick="openCart()">
                     🛒 Cart
+                    <span class="cart-count" id="cart-count" style="display: none;">0</span>
                 </button>
             </div>
         </div>
@@ -119,7 +133,13 @@
                         <h3 class="product-title">4oz Whipped Tallow Balm</h3>
                         <p class="product-description">Premium unscented whipped tallow balm made from fresh locally sourced beef suet and organic extra virgin olive oil. Handcrafted in small batches in our clean home kitchen.</p>
                         <div class="product-price">$20.00 USD</div>
-                        <button class="add-to-cart" onclick="alert('Contact us to order! Full shopping cart coming soon.')">Add to Cart</button>
+                        <div class="quantity-controls">
+                            <span>Qty:</span>
+                            <button class="quantity-btn" onclick="changeQuantity('balm', -1)">-</button>
+                            <input type="number" class="quantity-input" id="qty-balm" value="1" min="1" max="10">
+                            <button class="quantity-btn" onclick="changeQuantity('balm', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('balm', '4oz Whipped Tallow Balm', 20.00, 'https://i.imgur.com/ydr9B5j.jpeg')">Add to Cart</button>
                     </div>
                 </div>
 
@@ -132,7 +152,13 @@
                         <h3 class="product-title">Tallow Cooking Portions (10-pack)</h3>
                         <p class="product-description">100% fresh rendered tallow in convenient 0.5oz paper souffle cups. Vacuum sealed package contains 10 portions perfect for cooking and baking.</p>
                         <div class="product-price">$4.00 USD</div>
-                        <button class="add-to-cart" onclick="alert('Contact us to order! Full shopping cart coming soon.')">Add to Cart</button>
+                        <div class="quantity-controls">
+                            <span>Qty:</span>
+                            <button class="quantity-btn" onclick="changeQuantity('cooking10', -1)">-</button>
+                            <input type="number" class="quantity-input" id="qty-cooking10" value="1" min="1" max="10">
+                            <button class="quantity-btn" onclick="changeQuantity('cooking10', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('cooking10', 'Tallow Cooking Portions (10-pack)', 4.00, 'https://i.imgur.com/n6frxSh.jpeg')">Add to Cart</button>
                     </div>
                 </div>
 
@@ -145,7 +171,13 @@
                         <h3 class="product-title">Tallow Cooking Portions (20-pack)</h3>
                         <p class="product-description">100% fresh rendered tallow in convenient 0.5oz paper souffle cups. Vacuum sealed package contains 20 portions perfect for cooking and baking.</p>
                         <div class="product-price">$7.50 USD</div>
-                        <button class="add-to-cart" onclick="alert('Contact us to order! Full shopping cart coming soon.')">Add to Cart</button>
+                        <div class="quantity-controls">
+                            <span>Qty:</span>
+                            <button class="quantity-btn" onclick="changeQuantity('cooking20', -1)">-</button>
+                            <input type="number" class="quantity-input" id="qty-cooking20" value="1" min="1" max="10">
+                            <button class="quantity-btn" onclick="changeQuantity('cooking20', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart('cooking20', 'Tallow Cooking Portions (20-pack)', 7.50, 'https://i.imgur.com/n6frxSh.jpeg')">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -206,6 +238,19 @@
         </div>
     </section>
 
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button onclick="closeCart()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+            </div>
+            <div id="cart-items"></div>
+            <div class="cart-total" id="cart-total">Total: $0.00</div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -218,6 +263,143 @@
     </footer>
 
     <script>
+        let cart = [];
+
+        function changeQuantity(productId, change) {
+            const input = document.getElementById(`qty-${productId}`);
+            let newValue = parseInt(input.value) + change;
+            if (newValue < 1) newValue = 1;
+            if (newValue > 10) newValue = 10;
+            input.value = newValue;
+        }
+
+        function addToCart(productId, name, price, image) {
+            const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+            
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: name,
+                    price: price,
+                    quantity: quantity,
+                    image: image
+                });
+            }
+            
+            updateCartDisplay();
+            
+            // Reset quantity to 1
+            document.getElementById(`qty-${productId}`).value = 1;
+            
+            // Show success message
+            alert(`Added ${quantity} ${name} to cart!`);
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCount.style.display = 'flex';
+                cartCount.textContent = totalItems;
+            } else {
+                cartCount.style.display = 'none';
+            }
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cart-modal');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 2rem;">Your cart is empty</p>';
+                cartTotal.textContent = 'Total: $0.00';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="${item.image}" alt="${item.name}" style="width: 3rem; height: 3rem; object-fit: cover; border-radius: 0.25rem;">
+                            <div>
+                                <div style="font-weight: 600;">${item.name}</div>
+                                <div style="color: #6b7280; font-size: 0.875rem;">$${item.price.toFixed(2)} each</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button onclick="updateCartQuantity('${item.id}', -1)" style="background: #f3f4f6; border: 1px solid #d1d5db; width: 1.5rem; height: 1.5rem; border-radius: 0.25rem; cursor: pointer;">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.id}', 1)" style="background: #f3f4f6; border: 1px solid #d1d5db; width: 1.5rem; height: 1.5rem; border-radius: 0.25rem; cursor: pointer;">+</button>
+                            <button onclick="removeFromCart('${item.id}')" style="background: #ef4444; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 0.25rem; cursor: pointer; margin-left: 0.5rem;">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const shipping = 7.50;
+                const total = subtotal + shipping;
+                
+                cartTotal.innerHTML = `
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Subtotal:</span>
+                            <span>$${subtotal.toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Shipping:</span>
+                            <span>$${shipping.toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.125rem;">
+                            <span>Total:</span>
+                            <span>$${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            modal.classList.add('open');
+        }
+
+        function closeCart() {
+            document.getElementById('cart-modal').classList.remove('open');
+        }
+
+        function updateCartQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartDisplay();
+                    openCart(); // Refresh cart display
+                }
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+            openCart(); // Refresh cart display
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 7.50;
+            const total = subtotal + shipping;
+            
+            const orderSummary = cart.map(item => `${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}`).join('\n');
+            
+            alert(`Order Summary:\n\n${orderSummary}\n\nSubtotal: $${subtotal.toFixed(2)}\nShipping: $${shipping.toFixed(2)}\nTotal: $${total.toFixed(2)}\n\nContact us to complete your order!\nRemember: Use code SATOSHI for 5% discount!`);
+        }
+
         function toggleCollapsible(id) {
             const content = document.getElementById(id);
             const trigger = content.previousElementSibling;
@@ -230,6 +412,13 @@
                 trigger.innerHTML = trigger.innerHTML.replace('▼', '▲');
             }
         }
+
+        // Close cart when clicking outside
+        document.getElementById('cart-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCart();
+            }
+        });
     </script>
 </body>
 </html>
